@@ -5,11 +5,14 @@ import pandas as pd
 import json
 import re
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from sklearn import preprocessing
 from nltk.corpus import stopwords
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+
+#Load model
+model = tf.keras.models.load_model('model.h5')
 
 app = Flask(__name__)
 
@@ -80,9 +83,6 @@ def index():
     data = content_data[0]
     responses = content_data[1]
 
-    #Load model
-    model = tf.keras.models.load_model('my_model.h5')
-
     #Encode intent labels
     label_encoder = preprocessing.LabelEncoder()
     labels = np.array(data['tags'])
@@ -104,10 +104,12 @@ def index():
 
     tag = label_encoder.inverse_transform([output])[0]
     
-    return random.choice(responses[tag])
+    
+    return jsonify(
+        tag  = tag,
+        message = random.choice(responses[tag])
+    )
 
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
-
-
