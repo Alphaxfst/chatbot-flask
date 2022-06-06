@@ -3,9 +3,9 @@ ENV PYTHONBUFFERED=1
 
 WORKDIR /app
 
+COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
-COPY . .
 
-ENTRYPOINT ["gunicorn", "--bind", ":$PORT", "--timeout", "0" "wsgi:app"]
+CMD ["gunicorn", "--bind", ":$PORT", "--timeout", "0" "wsgi:app"]
