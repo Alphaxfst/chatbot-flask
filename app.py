@@ -69,6 +69,30 @@ def tok_pad_seq(text_pred, tokenizer):
     return pred_input
 
 
+def resto(location):
+    df = pd.read_csv('./resto_cleaned.csv', encoding = "ISO-8859-1")
+    location = location.capitalize()
+    dfsearch_sort = df.loc[(df['country'] == location) | (df['city'] == location)].sort_values(by='avg_rating', ascending=False)
+    if dfsearch_sort.empty:
+        recommendation =  f"Sorry, we don't have restaurant recommendation in {location}"
+    else:
+        restaurants = dfsearch_sort.head(3).to_string(index=False, header=False, justify='right', columns=['restaurant_name'])
+        recommendation = f"Here is our restaurant recommendation in {location}: \n{restaurants}"
+    return recommendation
+
+
+def hotel(location):
+    df = pd.read_csv('./hotel_cleaned.csv', encoding = "ISO-8859-1")
+    location = location.capitalize()
+    dfsearch_sort = df.loc[(df['country'] == location)].sort_values(by='rating', ascending=False)
+    if dfsearch_sort.empty:
+        recommendation =  f"Sorry, we don't have hotel recommendation in {location}"
+    else:
+        hotels = dfsearch_sort.head(3).to_string(index=False, header=False, justify='right', columns=['name'])
+        recommendation = f"Here is our hotel recommendation in {location}: \n{hotels}"
+    return recommendation
+
+
 @app.route('/', methods=['POST'])
 def index():
     text_pred = []
@@ -111,6 +135,26 @@ def index():
         tag=tag,
         message=random.choice(responses[tag])
     )
+
+
+@app.route('/resto-recommendation', methods=['POST'])
+def resto_recommendation():
+    json_data = request.json
+    recommendation_input = json_data['text']
+
+    recommendation = resto(recommendation_input)
+
+    return recommendation
+
+
+@app.route('/hotel-recommendation', methods=['POST'])
+def hotel_recommendation():
+    json_data = request.json
+    recommendation_input = json_data['text']
+
+    recommendation = hotel(recommendation_input)
+
+    return recommendation
 
 
 # Uncomment this to develop
