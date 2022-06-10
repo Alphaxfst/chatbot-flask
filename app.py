@@ -76,7 +76,7 @@ def resto(location):
     if dfsearch_sort.empty:
         recommendation =  f"Sorry, we don't have restaurant recommendation in {location}"
     else:
-        restaurants = dfsearch_sort.head(3).to_string(index=False, header=False, justify='right', columns=['restaurant_name'])
+        restaurants = dfsearch_sort.head(3).to_string(index=False, header=False, justify='left', columns=['restaurant_name'])
         recommendation = f"Here is our restaurant recommendation in {location}: \n{restaurants}"
     return recommendation
 
@@ -88,7 +88,7 @@ def hotel(location):
     if dfsearch_sort.empty:
         recommendation =  f"Sorry, we don't have hotel recommendation in {location}"
     else:
-        hotels = dfsearch_sort.head(3).to_string(index=False, header=False, justify='right', columns=['name'])
+        hotels = dfsearch_sort.head(3).to_string(index=False, header=False, justify='left', columns=['name'])
         recommendation = f"Here is our hotel recommendation in {location}: \n{hotels}"
     return recommendation
 
@@ -144,7 +144,10 @@ def resto_recommendation():
 
     recommendation = resto(recommendation_input)
 
-    return recommendation
+    return jsonify(
+        tag="resto_recommendation_response",
+        message=recommendation
+    )
 
 
 @app.route('/hotel-recommendation', methods=['POST'])
@@ -154,7 +157,10 @@ def hotel_recommendation():
 
     recommendation = hotel(recommendation_input)
 
-    return recommendation
+    return jsonify(
+        tag="hotel_recommendation_response",
+        message=recommendation
+    )
 
 
 # Uncomment this to develop
