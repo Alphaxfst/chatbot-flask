@@ -13,12 +13,12 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 # Load model
-nltk.download("stopwords")
 model = tf.keras.models.load_model('model.h5')
 
-app = Flask(__name__)
+# # Downoad stopwords, uncomment to download
+# nltk.download("stopwords")
 
-swords = set(stopwords.words("english"))
+app = Flask(__name__)
 
 
 def parse_text(text):
@@ -29,8 +29,8 @@ def parse_text(text):
     text = text.lower().split()
 
     # Remove stopwords
-    swords = set(stopwords.words("english"))
-    text = [w for w in text if w not in swords]
+    stop_words = set(stopwords.words("english"))
+    text = [word for word in text if word not in stop_words]
     text = " ".join(text)
 
     return text
@@ -42,9 +42,9 @@ def to_df(data):
     responses = {}
     for intent in data['intents']:
         responses[intent['tag']] = intent['responses']
-        for lines in intent['input']:
-            lines = parse_text(lines)
-            inputs.append(lines)
+        for rows in intent['input']:
+            rows = parse_text(rows)
+            inputs.append(rows)
             tags.append(intent['tag'])
 
     data = pd.DataFrame({"inputs": inputs,
@@ -164,5 +164,5 @@ def hotel_recommendation():
 
 
 # Uncomment this to develop
-# if __name__ == '__main__':
-#     app.run(port=5000, debug=True)
+if __name__ == '__main__':
+    app.run(port=5000, debug=True)
