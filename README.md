@@ -42,7 +42,7 @@ We make the model that can classify 13 tags that including:
 - restaurant recommendation
 - closing
 
-![Model Summary](assets\images\model_summary.png)
+![Model Summary](https://github.com/Alphaxfst/chatbot-tvlk/blob/master/assets/images/model_summary.png)
 
 We make the model with Tensorflow. The layers are starts from the Embedding layer using GloVe 100-Dimensional Word Vectors followed by two layers of LSTM inside the Bidirectional layers. Then we add some dense layers before the output layer. To reduce the overfitting, we add some dropout between the dense layers and regularizers L1 and L2 inside the Dense layers.
 
@@ -50,4 +50,4 @@ We make the model with Tensorflow. The layers are starts from the Embedding laye
 
 As we can see from the graph below, accuracy keeps on increasing as well as the loss keeps decreasing for 150 epochs. The final result is that we got 0.99 in training accuracy and 0.97 in validation accuracy
 
-![Accuracy Loss Graph](assets\images\loss_accuracy_graph.png)
+![Accuracy Loss Graph](https://github.com/Alphaxfst/chatbot-tvlk/blob/master/assets/images/loss_accuracy_graph.png)
