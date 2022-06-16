@@ -1,7 +1,4 @@
 # chatbot-tvlk
-Chatbot model deployment using Flask framework
-
-# chatbot-tvlk
 
 Machine Learning contribute to the chatbot model development. Development starts from creating chatbot dataset from scratch, build a model using Tensorflow,
 improve the model to reduce overfitting, and deploy the model on a local server which will then be continued by the CC team for deployment in the cloud services.
